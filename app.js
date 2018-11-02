@@ -11,7 +11,7 @@ var routes = require('./routes/index');
 
 var app = express();
 
-mongoose.connect('localhost: 27017/tienda');
+mongoose.connect('mongodb://localhost:27017/tienda', { useNewUrlParser: true });
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
