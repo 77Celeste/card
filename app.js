@@ -7,12 +7,19 @@ var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars');
 var mongoose = require('mongoose');
 var session = require('express-session');
+//var passport = require('passport');
+//var flash = require('connect-flash');
+//var validator = require('express-validator');
+var MongoStore = require('connect-mongo')(session);
+
 
 var routes = require('./routes/index');
-
+//var userRoutes = require('./routes/user');
 var app = express();
 
 mongoose.connect('mongodb://localhost:27017/tienda', { useNewUrlParser: true });
+//require('./config/passport');
+
 
 // view engine setup
 app.engine('.hbs', expressHbs({defaultLayout: 'layout', extname: '.hbs'}));
@@ -22,14 +29,31 @@ app.set('view engine', '.hbs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false, saveUninitialized : false}));
+//app.use(bodyParser.urlencoded({ extended: false, saveUninitialized : false}));
+app.use(bodyParser.urlencoded({ extended: false,}));
 app.use(cookieParser());
+app.use(session({
+  secret: 'mysupersecret',
+  resave : false,
+  saveUninitialized: false,
+  store: new MongoStore({mongooseConnection: mongoose.connection}),
+  cookie: {maxAge: 180*60*1000}
+}));
 
-app.use(session({secret: 'mysupersecret', resave : false}));
+
+//app.use(flash());
+//app.use(passport.initialize());
+//app.use(passport.session());
+/*app.use(function(req, res, next){
+  res.locals.login = req.isAuthenticated();
+  res.locals.session = req.session;
+  next();
+});*/
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
+//app.use('/user', userRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
