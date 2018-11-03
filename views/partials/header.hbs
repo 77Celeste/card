@@ -15,17 +15,22 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                  <a href="#">
+                  <a href="/shopping-cart/">
                     <i class="fa fa-shopping-cart" aria-hidden="true"></i> Shopping Cart
-                    
+                      <span class="badge">{{session.cart.totalQty}}</span>
                   </a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> User Management <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">User Account</a></li>
+                      {{# if login}}
+                        <li><a href="/user/profile">uuuser Account</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="/user/logout">logout</a></li>
+                        {{ else}}
+                        <li><a href="/user/signup">ign up</a></li>
+                        <li><a href="/user/signin">sign in </a></li>
+                        {{/if}}
                     </ul>
                 </li>
             </ul>

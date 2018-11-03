@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var expressHbs = require('express-handlebars');
 var mongoose = require('mongoose');
 var session = require('express-session');
-//var passport = require('passport');
+//var passport = require('passport'); //
 //var flash = require('connect-flash');
 //var validator = require('express-validator');
 var MongoStore = require('connect-mongo')(session);
@@ -44,13 +44,14 @@ app.use(session({
 //app.use(flash());
 //app.use(passport.initialize());
 //app.use(passport.session());
-/*app.use(function(req, res, next){
-  res.locals.login = req.isAuthenticated();
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res, next){
+  //res.locals.login = req.isAuthenticated();
   res.locals.session = req.session;
   next();
-});*/
+});
 
-app.use(express.static(path.join(__dirname, 'public')));
+
 
 app.use('/', routes);
 //app.use('/user', userRoutes);
